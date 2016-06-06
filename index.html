@@ -53,7 +53,13 @@
           from_date: params.fromDate,
           to_date:   params.toDate
         })
-        .groupBy(["name"], mixpanel.reducer.count());
+        .groupBy(["name"], mixpanel.reducer.count())
+        .map(function(event) {
+          eventForChart = {};
+          eventForChart[event.key[0]] = event.value;
+          return eventForChart;
+        })
+        .reduce(mixpanel.reducer.object_merge()); //flatten object to use in charts
       }
     </script>
     <script>
