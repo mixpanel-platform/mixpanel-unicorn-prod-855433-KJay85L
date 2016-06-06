@@ -26,7 +26,6 @@
       );
       var runQuery = function(propName) {
             dateRange = dateSelect.MPDatepicker('value');
-            console.log(dateRange);
       //create parameter object to pass to JQL query
        var queryParams = {
             fromDate: dateRange.from.toISOString().split('T')[0],
