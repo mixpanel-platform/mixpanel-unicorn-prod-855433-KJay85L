@@ -34,7 +34,7 @@
           MP.api.jql(script, queryParams)
           .done(function(resp) {
             //set chart data
-            eventChart.MPChart('setData', resp);
+            eventChart.MPChart('setData', resp[0]);
           }).fail(function($xhr) {
               var error = $xhr.request.responseText;
               var error_text = "Requst failed";
