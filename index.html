@@ -50,8 +50,8 @@
     <script type="text/cq" id="jql">
       function main() {
         return Events({
-          from_date: params.toDate,
-          to_date:   params.fromDate
+          from_date: params.fromDate,
+          to_date:   params.toDate
         })
         .groupBy(["name"], mixpanel.reducer.count());
       }
