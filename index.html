@@ -7,9 +7,57 @@
     <script src="https://cdn.mxpnl.com/libs/mixpanel-platform/build/mixpanel-platform.v0.latest.min.js"></script>
   </head>
   <body class="mixpanel-platform-body">
-    <h1>Hello, World!</h1>
+    <div id="chart"></div>
     <script>
-      // Run queries and display results here
+      //create chart template
+      var eventChart  = $('#chart').MPChart(
+        {
+          chartType: 'pie', highchartsOptions: {
+            tooltip: {
+              backgroundColor: '#fffce7'  // Make tooltip background yellow
+            }
+          }
+        }
+      );
+      var runQuery = function(propName) {
+      //create parameter object to pass to JQL query
+       var queryParams = {
+            toDate: '2016-06-06',
+            fromDate: '2016-01-01'
+          };
+          
+          //get JQL script below
+          var script = $('#jql').html();
+          script = $.trim(script);
+          
+          //make JQL API call
+          MP.api.jql(script, queryParams)
+          .done(function(resp) {
+            //set chart data
+            eventChart.MPChart('setData', resp);
+          }).fail(function($xhr) {
+              var error = $xhr.request.responseText;
+              var error_text = "Requst failed";
+              try {
+                  error_text = JSON.parse(error).error;
+              } catch (err) {
+                  error_text = $xhr.request.responseText;
+              }
+          });
+      };
+    </script>
+    <!-- put JQL code here-->
+    <script type="text/cq" id="jql">
+      function main() {
+        return Events({
+          from_date: params.toDate,
+          to_date:   params.fromDate
+        })
+        .groupBy(["name"], mixpanel.reducer.count());
+      }
+    </script>
+    <script>
+      runQuery();
     </script>
   </body>
 </html>
