@@ -35,7 +35,6 @@
         //get JQL script below
         var script = $('#jql').html();
         script = $.trim(script);
-        
         //make JQL API call
         MP.api.jql(script, queryParams)
         .done(function(resp) {
